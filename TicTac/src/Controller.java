@@ -78,6 +78,7 @@ public class Controller {
         int[] firstEmpty = model.getFirstEmpty();
         int[] target = firstEmpty;
         int[] wellTarget = firstEmpty;
+        int[] veryWellTarget = firstEmpty;
 
         int size = model.getSize();
         boolean canWin = false;
@@ -87,6 +88,7 @@ public class Controller {
         byte opponent = getOpponent(currentPlayer);
 
         byte maxLine = 0;
+        byte maxLineForOppo = 0;
 
         for(int i=0; i<size; i++) {
 
@@ -98,6 +100,10 @@ public class Controller {
             else if(rowProfile[opponent] == size-1 && rowProfile[0] == 1) {
                 canOpponentWin = true;
                 canOpponentWinTarget = model.getFirstEmptyInRow(i);
+            }
+            else if(rowProfile[opponent] > maxLineForOppo && rowProfile[currentPlayer] == 0) {
+                maxLineForOppo = rowProfile[opponent];
+                veryWellTarget = model.getFirstEmptyInRow(i);
             }
             else if(rowProfile[opponent] == 0 && rowProfile[currentPlayer] > maxLine) {
                 maxLine = rowProfile[currentPlayer];
@@ -112,6 +118,10 @@ public class Controller {
             else if(colProfile[opponent] == size-1 && colProfile[0] == 1) {
                 canOpponentWin = true;
                 canOpponentWinTarget = model.getFirstEmptyInCol(i);
+            }
+            else if(colProfile[opponent] > maxLineForOppo && colProfile[currentPlayer] == 0) {
+                maxLineForOppo = colProfile[opponent];
+                veryWellTarget = model.getFirstEmptyInCol(i);
             }
             else if(colProfile[opponent] == 0 && colProfile[currentPlayer] > maxLine) {
                 maxLine = colProfile[currentPlayer];
@@ -129,6 +139,10 @@ public class Controller {
             canOpponentWin = true;
             canOpponentWinTarget = model.getFirstEmptyInDiagonal1();
         }
+        else if(diagonal1Profile[opponent] > maxLineForOppo && diagonal1Profile[currentPlayer] == 0) {
+            maxLineForOppo = diagonal1Profile[opponent];
+            veryWellTarget = model.getFirstEmptyInDiagonal1();
+        }
         else if(diagonal1Profile[opponent] == 0 && diagonal1Profile[currentPlayer] > maxLine) {
             maxLine = diagonal1Profile[currentPlayer];
             wellTarget = model.getFirstEmptyInDiagonal1();
@@ -143,6 +157,10 @@ public class Controller {
             canOpponentWin = true;
             canOpponentWinTarget = model.getFirstEmptyInDiagonal2();
         }
+        else if(diagonal2Profile[opponent] > maxLineForOppo && diagonal2Profile[currentPlayer] == 0) {
+            maxLineForOppo = diagonal2Profile[opponent];
+            veryWellTarget = model.getFirstEmptyInDiagonal2();
+        }
         else if(diagonal2Profile[opponent] == 0 && diagonal2Profile[currentPlayer] > maxLine) {
             maxLine = diagonal2Profile[currentPlayer];
             wellTarget = model.getFirstEmptyInDiagonal2();
@@ -153,6 +171,9 @@ public class Controller {
         }
         else if(canOpponentWin) {
             return canOpponentWinTarget;
+        }
+        else if (maxLineForOppo > 0) {
+            return veryWellTarget;
         }
         else if (maxLine > 0) {
             return wellTarget;
