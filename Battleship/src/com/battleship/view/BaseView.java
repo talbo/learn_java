@@ -11,5 +11,10 @@ public abstract class BaseView {
     }
 
     public abstract void printFields();
+    public abstract void gameHello();
+    public abstract void printLine(String str);
+    public abstract int askGameMode();
+    public abstract int askNetworkGameMode();
+    public abstract String askSreverAddress();
 
 }

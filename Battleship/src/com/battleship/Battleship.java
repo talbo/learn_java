@@ -1,8 +1,8 @@
 package com.battleship;
 
+import com.battleship.controller.Controller;
 import com.battleship.model.Battle;
 import com.battleship.view.ConsoleView;
-import com.battleship.controller.ConsoleController;
 
 public class Battleship {
 
@@ -10,7 +10,7 @@ public class Battleship {
 
         Battle battle = new Battle();
         ConsoleView view = new ConsoleView(battle);
-        ConsoleController controller = new ConsoleController(battle, view);
+        Controller controller = new Controller(battle, view);
 
     }
 

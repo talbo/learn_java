@@ -2,15 +2,58 @@ package com.battleship.view;
 
 import com.battleship.model.Battle;
 import com.battleship.model.Battlefield;
+import java.util.Scanner;
 
 public class ConsoleView extends BaseView {
 
     private static final String[] COL_NAMES = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T"};
     private static final String[] CELL_STATES = {"     ", "  •  ", " ███ ", " ░░░ "};
     private static final String WRAP = "      ";
+    private Scanner scanner;
 
     public ConsoleView(Battle battle) {
         super(battle);
+        scanner = new Scanner(System.in);
+    }
+
+    public void gameHello() {
+        printLine("\n");
+        printLine("Battlefield game started!");
+        printLine("\n");
+    }
+
+    public int askSomethingList(String subject, String[] variants) {
+
+        printLine(subject);
+        for(int i=0; i<variants.length; i++) {
+            printLine(i+1 + ". " + variants[i]);
+        }
+        String consoleInput = scanner.nextLine();
+        if(consoleInput.length() == 1) {
+            try {
+                return Integer.parseInt(consoleInput) - 1;
+            } catch (NumberFormatException e) {}
+        }
+        return -1;
+
+    }
+
+    public String askSomethingString(String subject) {
+        printLine(subject);
+        String consoleInput = scanner.nextLine();
+        return consoleInput;
+    }
+
+    public int askGameMode() {
+        return askSomethingList("Select game mode:", battle.getGameModes());
+    }
+
+    public int askNetworkGameMode() {
+        return askSomethingList("Select network game mode:", battle.getNetworkGameModes());
+    }
+
+    public String askSreverAddress() {
+        return askSomethingString("Enter server IP address:");
     }
 
     public void printFields() {
@@ -79,12 +122,16 @@ public class ConsoleView extends BaseView {
 
         }
 
-        System.out.println("\n\n");
+        printLine("\n\n");
         for(int row=0; row<rowCount; row++) {
-            System.out.println(outText[row]);
+            printLine(outText[row]);
         }
-        System.out.println("\n\n");
+        printLine("\n\n");
 
+    }
+
+    public void printLine(String str) {
+        System.out.println(str);
     }
 
 }
