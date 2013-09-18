@@ -52,8 +52,39 @@ public class ConsoleView extends BaseView {
         return askSomethingList("Select network game mode:", battle.getNetworkGameModes());
     }
 
+    public int[] askShipPosition(int shipType, int shipSize, int shipCell) {
+        String strPosition = askSomethingString("Setup ship #" + shipType + " [" + shipCell + "/" + shipSize + "]");
+        return getPositionByCode(strPosition);
+    }
+
     public String askSreverAddress() {
         return askSomethingString("Enter server IP address:");
+    }
+
+    private int[] getPositionByCode(String strPosition) {
+
+        int[] position = {-1, -1};
+
+        if(strPosition.length() == 2) {
+            position[0] = getColByName(strPosition.substring(0, 1));
+            try {
+                position[1] = Integer.parseInt(strPosition.substring(1,2));
+            } catch (NumberFormatException e) {}
+        }
+
+        return position;
+
+    }
+
+    private int getColByName(String name) {
+        int col = -1;
+        name = name.toUpperCase();
+        for(int i=0; i< COL_NAMES.length; i++) {
+            if(name.equals(COL_NAMES[i])) {
+                col = i;
+            }
+        }
+        return col;
     }
 
     public void printFields() {

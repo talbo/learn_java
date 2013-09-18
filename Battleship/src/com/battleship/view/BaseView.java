@@ -15,6 +15,7 @@ public abstract class BaseView {
     public abstract void printLine(String str);
     public abstract int askGameMode();
     public abstract int askNetworkGameMode();
+    public abstract int[] askShipPosition(int shipType, int shipSize, int shipCell);
     public abstract String askSreverAddress();
 
 }

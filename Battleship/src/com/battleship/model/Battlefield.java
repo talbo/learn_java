@@ -28,4 +28,13 @@ public class Battlefield {
         return field;
     }
 
+    public void setShip(Ship ship) {
+        int[][] positions = ship.getPositions();
+        for(int i=0; i<positions.length; i++) {
+            int x = positions[i][0];
+            int y = positions[i][1];
+            field[x][y] = 2;
+        }
+    }
+
 }
