@@ -22,10 +22,13 @@ public class Connector implements Runnable {
     private DataInputStream in;
     private DataOutputStream out;
 
-    Connector(int mode, int type) {
+    private CommandMessenger cm;
+
+    Connector(int mode, int type, CommandMessenger cm) {
 
         this.mode = mode;
         this.type = type;
+        this.cm = cm;
 
         setPort();
 
@@ -73,12 +76,11 @@ public class Connector implements Runnable {
 
     private void readLoop() {
         try {
-            String line = null;
+            String msg = null;
             while (true) {
-                line = in.readUTF();
-                System.out.println("Read from socket: " + line);
-                System.out.println("Sending it back");
-                out.writeUTF(line);
+                msg = in.readUTF();
+                msg = cm.parseMessage(msg);
+                out.writeUTF(msg);
                 out.flush();
             }
         } catch (Exception x) {
